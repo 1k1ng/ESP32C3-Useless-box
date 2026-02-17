@@ -69,3 +69,8 @@ This project is configured to be built with [PlatformIO](https://platformio.org/
 -   `status-led.h` / `.cpp`: A simple class to control the status LED.
 -   `SparkFun_APDS9960_ESP8266.h` / `.cpp`: A modified third-party library for the APDS-9960 sensor, adapted for ESP8266 and also compatible with ESP32.
 -   `platformio.ini`: The PlatformIO project configuration file, which specifies the board, framework, and library dependencies.
+
+## Credits and Original Project
+
+-   **Original Code:** The code in this project is based on the work of [balassy](https://github.com/balassy/useless-box.git).
+-   **3D-Printed Parts:** The 3D model for the box can be found on Thingiverse: [https://www.thingiverse.com/thing:3856965](https://www.thingiverse.com/thing:3856965).
