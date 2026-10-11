@@ -29,7 +29,7 @@ const int PIN_SENSOR_SCL = 9;    // The GPIO number of the pin where the SCL pin
 const uint8_t SENSOR_TRIGGER_THRESHOLD = 50;  // The proximity value level that triggers a lid opening. (lower=brighter, higher=darker)
 
 const int LID_START_POSITION = 90;
-const int LID_END_POSITION = 40;
+const int LID_END_POSITION = 46;  // Lower = lid opens wider.
 const int SWITCH_START_POSITION = 0;
 const int SWITCH_END_POSITION = 180;  // Max travel/power to fully flip the switch.
 const int SWITCH_HALF_POSITION = 90;

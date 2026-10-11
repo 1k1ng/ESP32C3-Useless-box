@@ -88,9 +88,27 @@ void loop() {
   delay(250);
 }
 
+const int NUM_REACTIONS = 18;  // 0-9 original, 10-17 new.
+int lastReaction = -1;
+
+// Picks a random reaction, never the same one twice in a row. The first press is always the gentle slow one.
+int pickReaction() {
+  if (playCount == 0) {
+    return 0;
+  }
+  int reaction;
+  do {
+    reaction = random(NUM_REACTIONS);
+  } while (reaction == lastReaction);
+  return reaction;
+}
+
 void run() {
-  Serial.printf("[Run] playCount=%ld -> case %ld\n", playCount, playCount % 10);
-  switch (playCount % 10) {
+  int reaction = pickReaction();
+  lastReaction = reaction;
+  monitorSensor = true;  // Reactions that need a quiet lid switch it off below.
+  Serial.printf("[Run] playCount=%ld -> reaction %d\n", playCount, reaction);
+  switch (reaction) {
     case 0:
     case 1:
       runSlow();
@@ -122,6 +140,31 @@ void run() {
       break;
     case 9:
       runHalf();
+      break;
+    case 10:
+      runFakeOut();
+      break;
+    case 11:
+      runTease();
+      break;
+    case 12:
+      runSleepy();
+      break;
+    case 13:
+      runLidDisco();
+      monitorSensor = false;
+      break;
+    case 14:
+      runAngry();
+      break;
+    case 15:
+      runWiggle();
+      break;
+    case 16:
+      runDoubleTake();
+      break;
+    case 17:
+      runRandomSpeed();
       break;
     default:
       break;
@@ -196,6 +239,113 @@ void runHalf() {
   delay(3000);
   switchServo.moveFastTo(SWITCH_END_POSITION);
   switchServo.moveFastTo(SWITCH_START_POSITION);
+}
+
+// Pause for a random time between minMs and maxMs.
+void randomPause(long minMs, long maxMs) {
+  delay(random(minMs, maxMs + 1));
+}
+
+// Arm creeps out, gets scared and retreats, lid closes, then a surprise flip.
+void runFakeOut() {
+  Serial.println("[Action] Fake-out");
+  openLidSlow();
+  switchServo.moveSlowTo(SWITCH_HALF_POSITION);
+  randomPause(500, 1500);
+  switchServo.moveFastTo(SWITCH_START_POSITION);
+  closeLidSlow();
+  randomPause(2000, 6000);
+  openLidFast();
+  flipSwitchFast();
+  closeLidFast();
+}
+
+// Arm pokes toward the switch a random number of times before the real flip.
+void runTease() {
+  Serial.println("[Action] Tease");
+  openLidFast();
+  int pokes = random(2, 5);
+  for (int i = 0; i < pokes; i++) {
+    switchServo.moveAtSpeedTo(random(40, 85), random(3, 10));
+    randomPause(200, 700);
+    switchServo.moveFastTo(SWITCH_START_POSITION);
+    randomPause(300, 900);
+  }
+  flipSwitchFast();
+  closeLidFast();
+}
+
+// Takes its time: long wait, then a very slow flip.
+void runSleepy() {
+  Serial.println("[Action] Sleepy");
+  randomPause(6000, 12000);
+  openLidSlow();
+  randomPause(1000, 3000);
+  flipSwitchSlow();
+  closeLidSlow();
+}
+
+// Lid flaps a random number of times with random rhythm, then a quick flip.
+void runLidDisco() {
+  Serial.println("[Action] Lid disco");
+  int claps = random(4, 9);
+  for (int i = 0; i < claps; i++) {
+    clapLid();
+    randomPause(0, 400);
+  }
+  openLidFast();
+  flipSwitchFast();
+  closeLidFast();
+}
+
+// Flips immediately, then slams the lid and jabs the arm out again.
+void runAngry() {
+  Serial.println("[Action] Angry");
+  flipSwitchFast();
+  clapLid();
+  clapLid();
+  switchServo.moveFastTo(SWITCH_END_POSITION);
+  randomPause(100, 400);
+  switchServo.moveFastTo(SWITCH_START_POSITION);
+  clapLid();
+}
+
+// Arm wiggles back and forth between peek and half position before flipping.
+void runWiggle() {
+  Serial.println("[Action] Wiggle");
+  openLidFast();
+  switchServo.moveSlowTo(60);
+  int wiggles = random(3, 7);
+  for (int i = 0; i < wiggles; i++) {
+    switchServo.moveFastTo(SWITCH_HALF_POSITION);
+    switchServo.moveFastTo(60);
+  }
+  randomPause(300, 1200);
+  flipSwitchFast();
+  closeLidFast();
+}
+
+// Looks around: lid opens and closes slowly, opens again, then flips.
+void runDoubleTake() {
+  Serial.println("[Action] Double take");
+  openLidSlow();
+  randomPause(800, 2000);
+  closeLidSlow();
+  randomPause(800, 2500);
+  openLidFast();
+  randomPause(300, 1000);
+  flipSwitchFast();
+  closeLidFast();
+}
+
+// Flip with a random speed for every movement.
+void runRandomSpeed() {
+  Serial.println("[Action] Random speed");
+  lidServo.moveAtSpeedTo(LID_END_POSITION, random(1, 20));
+  randomPause(200, 2000);
+  switchServo.moveAtSpeedTo(SWITCH_END_POSITION, random(1, 20));
+  switchServo.moveAtSpeedTo(SWITCH_START_POSITION, random(1, 20));
+  lidServo.moveAtSpeedTo(LID_START_POSITION, random(1, 20));
 }
 
 void openLidSlow() {

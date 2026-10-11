@@ -24,6 +24,11 @@ void SpeedServo::moveSlowTo(int newPosition) {
 }
 
 // Valid position: 0-180.
+void SpeedServo::moveAtSpeedTo(int newPosition, unsigned long stepDelay) {
+  _moveTo(newPosition, stepDelay);
+}
+
+// Valid position: 0-180.
 void SpeedServo::_moveTo(int newPosition, unsigned long stepDelay) {
   if(newPosition > _lastPosition) {
     for (int pos = _lastPosition; pos <= newPosition; pos++) {

@@ -14,6 +14,7 @@ class SpeedServo {
     void moveNowTo(int position);
     void moveFastTo(int position);
     void moveSlowTo(int position);
+    void moveAtSpeedTo(int position, unsigned long stepDelay);  // stepDelay in ms per degree.
 
   private:
     Servo _servo;
