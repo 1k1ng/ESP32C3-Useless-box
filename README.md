@@ -20,8 +20,29 @@ The Useless Box has two main modes of operation:
 
 ### 2. Switch-Based Interaction
 
-- When the user flips the physical switch to the "ON" position, the box initiates one of ten different sequences to turn the switch back off.
-- A counter tracks the number of times the switch has been flipped, and each count triggers a different response, ranging from slow and deliberate to fast and playful. These include various speeds, delays, and even "peeking" or "clapping" the lid.
+When the switch is flipped to "ON", the box picks one of **18 reactions** at random to turn it back off. The same reaction never plays twice in a row, and the very first flip after power-up is always the gentle, slow one.
+
+| # | Reaction | What it does |
+| - | -------- | ------------ |
+| 0-1 | Slow | Opens the lid slowly, flips the switch slowly, closes the lid slowly |
+| 2 | Wait, then fast | Waits 5 s, then flips quickly |
+| 3 | Fast | Flips immediately |
+| 4 | Fast + clap | Flips quickly, then claps the lid |
+| 5 | Open/close | Opens and closes the lid, then flips quickly |
+| 6 | Peek | Arm peeks out, retreats, then flips quickly |
+| 7 | Slow open, fast flip | Opens slowly, waits, flips quickly, closes quickly |
+| 8 | Clap | Claps the lid four times, then flips |
+| 9 | Half | Moves halfway, pauses, then flips fully |
+| 10 | Fake-out | Arm creeps out and retreats, lid closes, then a surprise flip after a random pause |
+| 11 | Tease | Pokes toward the switch 2-4 times before the real flip |
+| 12 | Sleepy | Long random wait, then a very slow flip |
+| 13 | Lid disco | Lid flaps 4-8 times with a random rhythm, then a quick flip |
+| 14 | Angry | Flips immediately, slams the lid and jabs the arm out again |
+| 15 | Wiggle | Arm wiggles between peek and half position before flipping |
+| 16 | Double take | Lid opens and closes slowly, opens again, then flips |
+| 17 | Random speed | Every movement uses a random speed |
+
+During reactions that clap or flap the lid (5, 8 and 13), proximity detection is switched off so the sensor does not interfere.
 
 ## Required Components
 
