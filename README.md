@@ -74,3 +74,8 @@ This project is configured to be built with [PlatformIO](https://platformio.org/
 
 -   **Original Code:** The code in this project is based on the work of [balassy](https://github.com/balassy/useless-box.git).
 -   **3D-Printed Parts:** The 3D model for the box can be found on Thingiverse: [https://www.thingiverse.com/thing:3856965](https://www.thingiverse.com/thing:3856965).
+-   **APDS-9960 Library:** `SparkFun_APDS9960_ESP8266.*` is based on the SparkFun library by Shawn Hymel (SparkFun Electronics), released under the Beerware license.
+
+## License
+
+This project is released under the MIT License, see [LICENSE](LICENSE). The code in `code/` additionally carries the original MIT license of György Balássy, see [code/LICENSE](code/LICENSE).
